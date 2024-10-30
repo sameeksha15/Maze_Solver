@@ -1,0 +1,63 @@
+function solveMaze() {
+    let maze = [
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,1],
+        [1,1,1,0,1,0,0,1,0,1],
+        [1,0,0,0,1,0,1,0,0,1],
+        [0,0,0,1,1,0,0,1,0,1],
+        [1,0,1,0,0,0,0,1,1,1],
+        [1,0,1,0,1,1,1,0,0,1],
+        [1,0,0,0,0,1,0,0,0,0],
+        [1,0,1,0,0,0,0,1,0,1],
+        [1,1,1,1,1,1,1,1,1,1]
+    ];
+    let start = [4,0], end = [7,9];
+
+    let visited = new Set();
+
+    let path = [];
+    const resultPath = dfs(maze, start, end, path, visited);
+    return resultPath;
+}
+
+function dfs(maze, current, target, path, visited) {
+    const [row, col] = current;
+    const [targetRow, targetCol] = target;
+
+    if (row === targetRow && col === targetCol) {
+        return [...path, current];
+    }
+
+    if (
+        row < 0 || row >= maze.length ||
+        col < 0 || col >= maze[0].length ||
+        maze[row][col] === 1 ||
+        visited.has(`${x},${y}`)
+    ) {
+        return null; 
+    }
+
+    visited.add(`${x},${y}`);
+    path.push(start);
+
+    const directions = [
+        [1, 0],  // down
+        [-1, 0], // up
+        [0, 1],  // right
+        [0, -1]  // left
+    ];
+
+    for (const [dx, dy] of directions) {
+        const nextPosition = [x + dx, y + dy];
+        const result = dfs(maze, nextPosition, target, path, visited);
+        if (result) {
+            return result;
+        }
+    }
+
+    path.pop();
+    visited.delete(`${x},${y}`);
+    return null;
+}
+
+console.log(solveMaze());

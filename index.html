@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head> 
+<body>
+  
+  <header id="title-box">
+    <h1 id="title" style=" color: #e53265; text-align: center;">MAZE SOLVER</h1>
+  </header>
+
+    <main>
+        <div id="container">
+            <section id="make">
+                <label for="size" style="color: #1e2130;">Size of maze: </label>
+                <input type="number" id="size" min="4" max="16" value="4" required>
+                <button type="button" id="size-button">Draw</button>
+                <div id="maze-plot"></div>
+            </section>
+            <section id="rules">
+                <h2 style="text-align: center; margin: 3% 2%; font-family: 'Cinzel', serif;">GUIDE</h2>
+
+                <ul>
+                    <li>The maze grid can be set up with a minimum size of <strong>4x4</strong> and a maximum size of <strong>16x16</strong>.</li>
+                
+                    <li>Ensure the maze has exactly <strong>one entry</strong> and <strong>one exit</strong>.</li>
+                
+                    <li>The entry and exit <strong>cannot be positioned at the corners</strong> of the maze. They must be placed along the edges but not in any corner cells.</li>
+                
+                    <li><strong>Drag around</strong> the boxes on the grid to form the walls of the maze.</li>
+                
+                    <li><strong>Click on a box</strong> to toggle between a wall and a free space/path.</li>
+                
+                    <li>You can <strong>click on the "Load Maze" button</strong> to save the current maze configuration.</li>
+                
+                    <li>A maximum of <strong>5 mazes can be stored</strong>. If you attempt to save more, older mazes will be overwritten.</li>
+                
+                    <li>After creating the maze, <strong>click on the "Solve" button</strong> to solve the maze</li>
+                
+                    <li>If you want to start over or remove the solved path, <strong>click the "Reset" button</strong></li>
+                </ul>
+                
+            </section>
+        </div>
+        <section id="choose" class="choice">
+            <fieldset class="fieldset-hide" id="maze-input-fieldset">
+                <h3 style="text-align: center;">Choose one maze to solve</h3>
+                <div id="maze-choices"></div>
+                <div class="maze-choice-button">
+                    <button type="button" id="solve-maze-dfs">Solve Maze (DFS)</button>
+                    <button type="button" id="solve-maze-bfs">Solve Maze (BFS)</button>
+                    <button type="button" id="delete-all-mazes-button">Delete All Mazes</button>
+                </div>
+            </fieldset>
+        </section>
+        <section id="result">
+            <fieldset class="fieldset-hide" id ="result-fieldset">
+                <legend>Result</legend>
+                <div style="display: flex; margin: 3px">
+                    <div id="result-maze"></div>
+                </div>
+            </fieldset>
+        </section>
+    </main>
+    
+    <script src="functions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

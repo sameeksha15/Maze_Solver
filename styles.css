@@ -1,0 +1,290 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background: linear-gradient(90deg, #8a6eff, #83869a);
+}
+
+#make {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    padding: 10px;
+    width: 50ch;
+    border: 1px solid #1e2130;
+    border-radius: 2%;
+    box-shadow: gray;
+    margin: 2%;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#maze-plot {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0 auto;
+    padding: 0;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.block {
+    border: thin solid black;
+    width: 20px;
+    height: 20px;
+}
+
+.block:hover {
+    border-color: blue;
+}
+
+.wall {
+    background-color: black;
+}
+
+.result-path {
+    background-color: pink;
+    border-color: black;
+}
+
+@media (min-width: 768px) {
+    #make {
+        width: 70ch;
+    }
+}
+
+#container {
+    display: flex; 
+}
+
+#rules {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50ch;
+    border: 1px solid #1e2130;
+    border-radius: 2%;
+    box-shadow: gray;
+    margin: 2%;
+    background: linear-gradient(-10deg,#d9edf7 35%,rgba(237,202,216,0) 75%,#ffd7e0),radial-gradient(circle,#ffcae1 0,#daeafc 100%);
+}
+
+#rules h2 {
+    border: 1px solid #1e2130;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+    background: rgba(195, 187, 238, 0.5);
+    margin-top: 0;
+    border-top: 0;
+    padding: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+}
+
+#rules li {
+    text-align: left;
+    padding-right: 2rem;
+}
+#maze-choices {
+    display: flex;
+    flex-direction: row;
+}
+
+#title-box {
+    margin: 5% auto;
+    padding: 5px;
+    background-color: #1e2130;
+    border: 1px solid white;
+}
+
+#size-button {
+    display: block;
+    width: 20%;
+    padding: 0.75rem;
+    color: inherit;
+    border: 1px solid #1e2130;
+    border-radius: 2rem;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    background-color: aliceblue;
+
+}
+
+#size {
+    display: block;
+    width: 60%;
+    margin: 1em auto;
+    height: 2em;
+    font-size: 1.1rem;
+    min-width: 300px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+#size-button:hover
+{
+    background-color: #3b3b4f;
+    color: white;
+    transform: scale(1.1);
+    cursor: pointer;
+    border: 1px solid #e53265;
+}
+
+.maze-make-buttons {
+    display: flex; 
+    gap: 2rem; 
+    width: 40ch;
+}
+  
+.maze-make-buttons button{ 
+    width: 40ch;
+    padding: 0.75rem;
+    color: inherit;
+    border: 1px solid #1e2130;
+    border-radius: 2rem;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    background-color: aliceblue;
+}
+
+.maze-make-buttons button:hover{
+    background-color: #3b3b4f;
+    color: white;
+    transform: scale(1.1);
+    cursor: pointer;
+    border: 1px solid #e53265;
+}
+
+.fieldset-hide {
+    display: none;
+}
+
+.choice {
+    display: none;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #1e2130;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+#maze-input-fieldset {
+    border: 2px solid #1e2130;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 2%; 
+}
+
+
+h3 {
+    background-color: #3b3b4f;
+    color: #83869a;
+    border: 1px solid #1e2130;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+    margin-top: 0;
+    border-top: 0;
+    padding: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+
+}
+
+
+#maze-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center; 
+    align-items: flex-start;
+}
+
+.maze-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.saved-maze {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0 auto;
+    padding: 0;
+}
+
+
+#maze-choices input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+input[type="radio"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em rebeccapurple;
+    background-color: CanvasText;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+
+.maze-choice-button {
+    display: flex;
+    justify-content: center; 
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.maze-choice-button button {
+    width: 40ch;
+    padding: 0.75rem;
+    color: inherit;
+    border: 1px solid #1e2130;
+    border-radius: 2rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    background-color: aliceblue;
+}
+
+.maze-choice-button button:hover {
+    background-color: #3b3b4f;
+    color: white;
+    transform: scale(1.1);
+    cursor: pointer;
+    border: 1px solid #e53265;
+}
+
