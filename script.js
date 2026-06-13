@@ -282,8 +282,8 @@ async function solveMazeDFS(maze, source, target) {
   module._free(mazePointer);
   module._free(pathPointer);
 
-  while(start.length) start.pop();
-  while(end.length) end.pop();
+  while (start.length) start.pop();
+  while (end.length) end.pop();
 
   console.log("BFS Path:", path);
   return path;
@@ -353,8 +353,8 @@ async function solveMazeBFS(maze, source, target) {
   module._free(mazePointer);
   module._free(pathPointer);
 
-  while(start.length) start.pop();
-  while(end.length) end.pop();
+  while (start.length) start.pop();
+  while (end.length) end.pop();
 
   console.log("BFS Path:", path);
   return path;
@@ -384,30 +384,40 @@ async function showResult(algorithm) {
   console.log(`start: ${start} - end: ${end}`);
   let path;
   let temp;
-  if(algorithm === "DFS") {
+  if (algorithm === "DFS") {
     path = await solveMazeDFS(structuredClone(resultMaze), start, end);
     temp = "DFS";
-  } else if(algorithm === "BFS") {
+  } else if (algorithm === "BFS") {
     path = await solveMazeBFS(structuredClone(resultMaze), start, end);
     temp = "BFS";
   }
   console.log(temp);
   console.log("solveMaze done");
-  for (let [row, col] of path) {
-    resultMaze[row][col] = 2;
-  }
+
+  // Disable solve buttons during animation
+  solveMazeButton.disabled = true;
+  solveMazeButtonBFS.disabled = true;
+
+  // Build result maze HTML WITHOUT path highlighted yet (use "path" class for all open cells)
   let resultMazeHTML = "";
   for (let row = 0; row < resultMaze.length; row++) {
     resultMazeHTML += '<div class="row">';
     for (let col = 0; col < resultMaze[row].length; col++) {
-      let BlockClassName = classMap.get(resultMaze[row][col]);
-      resultMazeHTML += `<div class="block ${BlockClassName}"></div>`;
+      let blockClass = resultMaze[row][col] === 1 ? "wall" : "path";
+      resultMazeHTML += `<div class="block ${blockClass}" id="result-${row}-${col}"></div>`;
     }
     resultMazeHTML += "</div>";
   }
-  resultMazeHTML += `<div><span>Path Length: ${pathLength}</span></div>`;
+
+  // Status label shown during animation
+  resultMazeHTML += `<div class="path-status" id="path-status">
+    <span class="path-status-icon"></span>
+    <span id="path-status-text">Solving… <span id="path-step-counter">0</span> / ${path.length} steps</span>
+  </div>`;
+
+  resultMazeHTML += `<div id="path-length-display" style="display:none"><span>Path Length: ${pathLength}</span></div>`;
   resultMazeHTML += `
-      <button type="button" class="result-button" style="display: block;
+      <button type="button" class="result-button" id="result-reset-btn" style="display: none;
     width: 100%;
     padding: 0.75rem;
     color: inherit;
@@ -417,8 +427,70 @@ async function showResult(algorithm) {
     margin-bottom: 2rem;
     margin-top: 2rem;
     background-color: aliceblue;" onClick="reset()">Reset</button>`;
+
   resultMazeArea.innerHTML = resultMazeHTML;
   resultMazeFieldset.classList.remove("fieldset-hide");
+
+  // Scroll into view smoothly
+  resultMazeFieldset.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  // Animate path step by step
+  const STEP_DELAY = Math.max(30, Math.min(120, 1500 / path.length)); // adaptive speed
+  const stepCounter = document.getElementById("path-step-counter");
+
+  path.forEach(([row, col], index) => {
+    setTimeout(() => {
+      const cell = document.getElementById(`result-${row}-${col}`);
+      if (cell) {
+        cell.classList.remove("path");
+        cell.classList.add("result-path", "path-animate");
+      }
+      if (stepCounter) stepCounter.textContent = index + 1;
+
+      // On last step — reveal final UI
+      if (index === path.length - 1) {
+        // Mark start & end with special classes
+        if (path.length > 0) {
+          const [sr, sc] = path[0];
+          const [er, ec] = path[path.length - 1];
+          const startCell = document.getElementById(`result-${sr}-${sc}`);
+          const endCell = document.getElementById(`result-${er}-${ec}`);
+          if (startCell) { startCell.classList.add("path-start"); }
+          if (endCell) { endCell.classList.add("path-end"); }
+        }
+
+        const statusEl = document.getElementById("path-status");
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="path-status-icon"></span><span>Done! Path found in <strong>${pathLength}</strong> steps using <strong>${temp}</strong></span>`;
+          statusEl.classList.add("path-status-done");
+        }
+
+        const lengthDisplay = document.getElementById("path-length-display");
+        if (lengthDisplay) lengthDisplay.style.display = "";
+
+        const resetBtn = document.getElementById("result-reset-btn");
+        if (resetBtn) resetBtn.style.display = "block";
+
+        // Re-enable solve buttons
+        solveMazeButton.disabled = false;
+        solveMazeButtonBFS.disabled = false;
+      }
+    }, index * STEP_DELAY);
+  });
+
+  // Edge case: empty path (no solution)
+  if (path.length === 0) {
+    const statusEl = document.getElementById("path-status");
+    if (statusEl) {
+      statusEl.innerHTML = `<span class="path-status-icon">❌</span><span>No path found!</span>`;
+      statusEl.classList.add("path-status-done");
+    }
+    const resetBtn = document.getElementById("result-reset-btn");
+    if (resetBtn) resetBtn.style.display = "block";
+    solveMazeButton.disabled = false;
+    solveMazeButtonBFS.disabled = false;
+  }
+
   console.log("Result added");
 }
 
